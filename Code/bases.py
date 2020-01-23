@@ -8,6 +8,9 @@ import string
 # string.ascii_uppercase is 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 # string.ascii_letters is ascii_lowercase + ascii_uppercase
 # string.printable is digits + ascii_letters + punctuation + whitespace
+BASE_ENCODE = string.digits + string.ascii_lowercase
+BASE_DECODE = {digit: val for val, digit in enumerate(BASE_ENCODE)}
+
 
 
 def decode(digits, base):
@@ -17,12 +20,12 @@ def decode(digits, base):
     return: int -- integer representation of number (in base 10)"""
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
-    # TODO: Decode digits from binary (base 2)
-    # ...
-    # TODO: Decode digits from hexadecimal (base 16)
-    # ...
-    # TODO: Decode digits from any base (2 up to 36)
-    # ...
+    # Implement decode - decode digits in any base to a number
+    decoded = 0
+    for pos, digit in enumerate(reversed(digits)):
+        decoded += base**pos*BASE_DECODE[digit]
+
+    return decoded
 
 
 def encode(number, base):
@@ -34,13 +37,23 @@ def encode(number, base):
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
     # Handle unsigned numbers only for now
     assert number >= 0, 'number is negative: {}'.format(number)
-    # TODO: Encode number in binary (base 2)
-    # ...
-    # TODO: Encode number in hexadecimal (base 16)
-    # ...
-    # TODO: Encode number in any base (2 up to 36)
-    # ...
+    encoded = ''
+    highest_power = 1
+    multiple = base
+    while multiple <= number:
+        multiple *= base
+        highest_power += 1
 
+    for power in reversed(range(highest_power)):
+        multiple = base ** power
+        if multiple > number:
+            encoded += '0'
+
+        else:
+            div, number = divmod(number, multiple)
+            encoded += str(BASE_ENCODE[div])
+
+    return encoded
 
 def convert(digits, base1, base2):
     """Convert given digits in base1 to digits in base2.
@@ -51,14 +64,8 @@ def convert(digits, base1, base2):
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base1 <= 36, 'base1 is out of range: {}'.format(base1)
     assert 2 <= base2 <= 36, 'base2 is out of range: {}'.format(base2)
-    # TODO: Convert digits from base 2 to base 16 (and vice versa)
-    # ...
-    # TODO: Convert digits from base 2 to base 10 (and vice versa)
-    # ...
-    # TODO: Convert digits from base 10 to base 16 (and vice versa)
-    # ...
-    # TODO: Convert digits from any base to any base (2 up to 36)
-    # ...
+    decoded = digits if base1 == 10 else decode(digits, base1)
+    return encode(int(decoded), base2)
 
 
 def main():
