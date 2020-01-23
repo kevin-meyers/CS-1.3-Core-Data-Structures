@@ -80,8 +80,6 @@ class LinkedList(object):
 
         return current
 
-
-
     def get_at_index(self, index):
         """Return the item at the given index in this linked list, or
         raise ValueError if the given index is out of range of the list size.
