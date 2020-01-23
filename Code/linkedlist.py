@@ -98,12 +98,20 @@ class LinkedList(object):
         Worst case running time: ??? under what conditions? [TODO]"""
         # Check if the given index is out of range and if so raise an error
         # Moves the index node data to a new node next in the list replace item
-        index_node = self._get_node_at_index(index)
-        new_node = Node(index_node.data)
-        new_node.next = index_node.next
-        index_node.next = new_node
-        index_node.data = item
+        if index == self.size:
+            self.append(item)
 
+        else:
+            index_node = self._get_node_at_index(index)
+            new_node = Node(index_node.data)
+            new_node.next = index_node.next
+            index_node.next = new_node
+            index_node.data = item
+            if index == self.size - 1:
+                self.tail = new_node
+
+            self.size += 1
+        print(self.head, self.tail, self.items)
 
     def append(self, item):
         """Insert the given item at the tail of this linked list.
@@ -135,6 +143,7 @@ class LinkedList(object):
             new_node.next = self.head
         # Update head to new node regardless
         self.head = new_node
+        self.size += 1
 
     def find(self, quality):
         """Return an item from this linked list satisfying the given quality.
