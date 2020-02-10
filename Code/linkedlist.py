@@ -33,6 +33,15 @@ class LinkedList(object):
         """Return a string representation of this linked list."""
         return 'LinkedList({!r})'.format(self.items())
 
+    def popleft(self):
+        if not self.head:
+            return None
+
+        item = self.head.data
+        self.head = self.head.next
+        self.size -= 1
+        return item
+
     def items(self):
         """Return a list of all items in this linked list.
         Best and worst case running time: Theta(n) for n items in the list
