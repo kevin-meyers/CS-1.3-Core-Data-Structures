@@ -13,13 +13,17 @@ def is_palindrome(text):
     # implement is_palindrome_iterative and is_palindrome_recursive below, then
     # change this to call your implementation to verify it passes all tests
     assert isinstance(text, str), 'input is not a string: {}'.format(text)
+
+    # make sure all letters are lowercase
     text = [char.lower() for char in text if char.isalpha()]
+
+    # If its 0 or 1 it is automatically a palindrome
     if len(text) < 2:
         return True
 
+    # Calculate the halway point up front to abstract similar code.
     halfway = (len(text) - 1) // 2
     return is_palindrome_recursive(text, halfway)
-    # return is_palindrome_recursive(text)
 
 
 def is_palindrome_iterative(text, halfway):
