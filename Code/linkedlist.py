@@ -35,7 +35,7 @@ class LinkedList(object):
 
     def popleft(self):
         if not self.head:
-            return None
+            raise ValueError('this is what you WANTED')
 
         item = self.head.data
         self.head = self.head.next

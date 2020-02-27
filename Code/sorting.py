@@ -5,16 +5,36 @@ def is_sorted(items):
     """Return a boolean indicating whether given items are in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Check that all adjacent items are in order, return early if not
+    # base case
+    if len(items) < 2:
+        return True
 
+    previous_item = items[0]
+    for current_item in items[1:]:
+        if current_item < previous_item:
+            return False
+
+        previous_item = current_item
+
+    return True
+
+
+def swap_items(items, first_i, second_i):
+    items[first_i], items[second_i] = items[second_i], items[first_i]
 
 def bubble_sort(items):
     """Sort given items by swapping adjacent items that are out of order, and
     repeating until all items are in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until all items are in sorted order
-    # TODO: Swap adjacent items that are out of order
+    while not is_sorted(items):
+        prev_i = 0
+
+        while prev_i + 1 < len(items):
+            if items[prev_i] > items[prev_i + 1]:
+                swap_items(items, prev_i, prev_i + 1)
+
+            prev_i += 1
 
 
 def selection_sort(items):
@@ -22,10 +42,22 @@ def selection_sort(items):
     unsorted item, and repeating until all items are in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until all items are in sorted order
-    # TODO: Find minimum item in unsorted items
-    # TODO: Swap it with first unsorted item
+    sorted_index = 0
+    while sorted_index < len(items):
+        min_index = len(items) - 1
+        min_num = items[-1]
 
+        for index, item in enumerate(items[sorted_index:], start=sorted_index):
+            if item < min_num:
+                min_num = item
+                min_index = index
+
+        swap_items(items, sorted_index, min_index)
+        sorted_index += 1
+
+l = [1, 2,41 , 124124,1, 24,141,24 ,124,1, 4,12]
+selection_sort(l)
+print(l)
 
 def insertion_sort(items):
     """Sort given items by taking first unsorted item, inserting it in sorted
