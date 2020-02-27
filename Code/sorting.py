@@ -36,7 +36,6 @@ def bubble_sort(items):
 
             prev_i += 1
 
-
 def selection_sort(items):
     """Sort given items by finding minimum item, swapping it with first
     unsorted item, and repeating until all items are in sorted order.
@@ -55,18 +54,24 @@ def selection_sort(items):
         swap_items(items, sorted_index, min_index)
         sorted_index += 1
 
-l = [1, 2,41 , 124124,1, 24,141,24 ,124,1, 4,12]
-selection_sort(l)
-print(l)
-
 def insertion_sort(items):
     """Sort given items by taking first unsorted item, inserting it in sorted
     order in front of items, and repeating until all items are in order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until all items are in sorted order
-    # TODO: Take first unsorted item
-    # TODO: Insert it in sorted order in front of items
+    sorted_index = 0
+    while sorted_index < len(items):
+        for index, s_item in enumerate(items[:sorted_index]):
+            if s_item > items[sorted_index]:
+                items.insert(index, items.pop(sorted_index))
+
+        sorted_index += 1
+
+
+l = [1, 2,41 , 124124,1, 24,141,24 ,124,1, 4,12]
+insertion_sort(l)
+print(l)
+
 
 
 def merge(items1, items2):
