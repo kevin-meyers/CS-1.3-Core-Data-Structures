@@ -67,11 +67,18 @@ def insertion_sort(items):
 
         sorted_index += 1
 
+def _is_ascending(items):
+    if items[0] < items[-1]: # ascending order
+        return True
 
-l = [1, 2,41 , 124124,1, 24,141,24 ,124,1, 4,12]
-insertion_sort(l)
-print(l)
+    return False
 
+def _comparison(items):
+    ''' To find which quality to use. '''
+    if _is_ascending(items):
+        return lambda x, y: x > y
+
+    return lambda x, y: x < y
 
 
 def merge(items1, items2):
@@ -79,10 +86,37 @@ def merge(items1, items2):
     and return a new list containing all items in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until one list is empty
-    # TODO: Find minimum item in both lists and append it to new list
-    # TODO: Append remaining items in non-empty list to new list
+    new_items = []
+    quality = _comparison(items2)
 
+    while len(items1) > 0 and len(items2) > 0:
+        if quality(items1[-1], items2[-1]):
+            new_items.append(items1.pop())
+
+        else:
+            new_items.append(items2.pop())
+
+    while len(items1) > 0:
+        new_items.append(items1.pop())
+
+    while len(items2) > 0:
+        new_items.append(items2.pop())
+
+    return new_items
+
+
+l1 = [10, 4, 3, 2]
+l2 = [6, 4, 2, 1]
+
+print(merge(l1, l2))
+
+
+def _reverse_list(items):
+    stack = []
+    while len(items) > 0:
+        stack.append(items.pop())
+
+    return stack
 
 def split_sort_merge(items):
     """Sort given items by splitting list into two approximately equal halves,
@@ -90,20 +124,35 @@ def split_sort_merge(items):
     a list in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Split items list into approximately equal halves
-    # TODO: Sort each half using any other sorting algorithm
-    # TODO: Merge sorted halves into one list in sorted order
+    middle = len(items) // 2
+    first_half = items[:middle]
+    second_half = items[middle:]
 
+    selection_sort(first_half)
+    insertion_sort(second_half)
+
+    merged = merge(first_half, second_half)
+
+    # Since we know its ascending.
+    return _reverse_list(merged)
 
 def merge_sort(items):
     """Sort given items by splitting list into two approximately equal halves,
     sorting each recursively, and merging results into a list in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Check if list is so small it's already sorted (base case)
-    # TODO: Split items list into approximately equal halves
-    # TODO: Sort each half by recursively calling merge sort
-    # TODO: Merge sorted halves into one list in sorted order
+    if len(items) < 2:
+        return items
+
+    middle = len(items) // 2
+    merged = merge(merge_sort(items[:middle]), merge_sort(items[middle:]))
+    if _is_ascending(merged):
+        return merged
+
+    return _reverse_list(merged)
+
+l = [1, 2,41 , 124124,1, 24,141,24 ,124,1, 4,12]
+print(merge_sort(l))
 
 
 def partition(items, low, high):
