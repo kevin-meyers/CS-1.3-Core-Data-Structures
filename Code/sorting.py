@@ -77,7 +77,7 @@ def _comparison(items):
     ''' To find which quality to use. '''
     if _is_ascending(items):
         return lambda x, y: x > y
-
+nalyst
     return lambda x, y: x < y
 
 
