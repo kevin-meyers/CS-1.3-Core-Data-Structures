@@ -5,32 +5,62 @@ from binarytree import BinarySearchTree
 class HashSet:
     def __init__(self):
         self.table = HashTable()
-        self.size = 0
 
-    def contains(self, item):
-        return self.table.contains(item)
+    @property
+    def size(self):
+        return len(self.table)
+
+    def __contains__(self, item):
+        ''' Special method allowing use of `in` '''
+        return item in self.table
+
+    def __iter__(self):
+        ''' Special method allowing use of looping. '''
+        for item in self.table.items():
+            yield item
 
     def add(self, item):
         self.table.set(item, None)
-        self.size += 1
 
     def remove(self, item):
         self.table.delete(item)
-        self.size -= 1
 
-    def length(self):
+    def __len__(self):
+        ''' Special method allowing use of `len()`. '''
         return self.size
 
-    def _smaller_larger_pair(self, table_1, table_2):
-        if len(table_1) < len(table_2):
-            return table_1, table_2
+    def _smaller_larger_pair(self, set_1, set_2):
+        ''' Helper to return the ordering of smaller, larger. '''
+        if len(set_1) < len(set_2):
+            return set_1, set_2
 
-        return table_2, table_1
+        return set_2, set_1
 
     def intersection(self, other_set):
-        smaller, larger = self._smaller_larger_pair(self.table, other_set.table)
+        ''' Find items that are present in both sets. '''
+        # Get the smaller, larger pair
+        smaller, larger = self._smaller_larger_pair(self, other_set)
         new_set = HashSet()
-        for item in smaller.items():
+        for item in smaller:
+            if item in larger:
+                new_set.add(item)
+
+        return new_set
+
+    def intersection_(self, other_set):
+        ''' Find items that are present in both sets. '''
+        # Getting the smaller set to reduce
+        # The number of loops
+        if self.size < other_set.size:
+            smaller = self
+            larger = other_set
+
+        else:
+            smaller = other_set
+            larger = self
+
+        new_set = HashSet()
+        for item in smaller.table.items():
             if larger.contains(item):
                 new_set.add(item)
 
@@ -58,38 +88,35 @@ class HashSet:
         if len(self) > len(other_set):
             return False
 
-        for item in self.table.items():
-            if not other_set.contains(item):
+        for item in self:
+            if item not in other_set:
                 return False
 
         return True
 
 
 class TreeSet:
-    def __init__(self):
+    def __init__(self, items=None):
         self.tree = BinarySearchTree()
-        self.size = 0
+        if items is not None:
+            for item in items:
+                self.add(item)
 
     def __len__(self):
-        return self.length()
+        return len(self.tree)
 
     def __contains__(self, item):
-        return self.contains(item)
+        return item in self.tree
 
-    def contains(self, item):
-        return self.tree.contains(item)
+    def __iter__(self):
+        for item in self.tree
 
     def add(self, item):
         if item not in self.tree:
             self.tree.insert(item)
-            self.size += 1
 
     def remove(self, item):
         self.tree.delete(item)
-        self.size -= 1
-
-    def length(self):
-        return self.size
 
     def _smaller_larger_pair(self, tree_1, tree_2):
         if len(tree_1) < len(tree_2):
