@@ -88,10 +88,14 @@ class ArrayQueue(object):
         """Remove and return the item at the front of this queue,
         or raise ValueError if this queue is empty.
         Running time: O(???) – Why? [TODO]"""
-        return self.list.pop()
+        try:
+            return self.list.pop()
+
+        except IndexError:
+            raise ValueError('index out of range')
 
 
 # Implement LinkedQueue and ArrayQueue above, then change the assignment below
 # to use each of your Queue implementations to verify they each pass all tests
-Queue = LinkedQueue
-# Queue = ArrayQueue
+# Queue = LinkedQueue
+Queue = ArrayQueue
