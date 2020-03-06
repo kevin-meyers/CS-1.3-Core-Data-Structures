@@ -77,7 +77,7 @@ def _comparison(items):
     ''' To find which quality to use. '''
     if _is_ascending(items):
         return lambda x, y: x > y
-nalyst
+
     return lambda x, y: x < y
 
 
@@ -108,7 +108,7 @@ def merge(items1, items2):
 l1 = [10, 4, 3, 2]
 l2 = [6, 4, 2, 1]
 
-print(merge(l1, l2))
+# print(merge(l1, l2))
 
 
 def _reverse_list(items):
@@ -152,7 +152,7 @@ def merge_sort(items):
     return _reverse_list(merged)
 
 l = [1, 2,41 , 124124,1, 24,141,24 ,124,1, 4,12]
-print(merge_sort(l))
+# print(merge_sort(l))
 
 
 def partition(items, low, high):

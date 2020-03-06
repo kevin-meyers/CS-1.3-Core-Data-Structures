@@ -1,14 +1,16 @@
 #!python
+from copy import copy
 
 from linkedlist import LinkedList
 
 
 class HashTable(object):
 
-    def __init__(self, init_size=8):
+    def __init__(self, init_size=8, default=None):
         """Initialize this hash table with the given initial size."""
         self.buckets = [LinkedList() for i in range(init_size)]
         self.size = 0  # Number of key-value entries
+        self.default = lambda: copy(default)
 
     def __str__(self):
         """Return a formatted string representation of this hash table."""
@@ -57,16 +59,14 @@ class HashTable(object):
             all_items.extend(bucket.items())
         return all_items
 
+    def __len__(self):
+        return self.length()
+
     def length(self):
         """Return the number of key-value entries by traversing its buckets.
         Best and worst case running time: ??? under what conditions? [TODO]"""
         # Count number of key-value entries in each of the buckets
-        item_count = 0
-        for bucket in self.buckets:
-            item_count += bucket.length()
-        return item_count
-        # Equivalent to this list comprehension:
-        return sum(bucket.length() for bucket in self.buckets)
+        return self.size
 
     def contains(self, key):
         """Return True if this hash table contains the given key, or False.
@@ -78,6 +78,9 @@ class HashTable(object):
         # Check if an entry with the given key exists in that bucket
         entry = bucket.find(lambda key_value: key_value[0] == key)
         return entry is not None  # True or False
+
+    def __getitem__(self, key):
+        return self.get(key)
 
     def get(self, key):
         """Return the value associated with the given key, or raise KeyError.
@@ -94,7 +97,14 @@ class HashTable(object):
             assert len(entry) == 2
             return entry[1]
         else:  # Not found
-            raise KeyError('Key not found: {}'.format(key))
+            if self.default is None:
+                raise KeyError('Key not found: {}'.format(key))
+
+            self.set(key, self.default())
+            return self[key]
+
+    def __setitem__(self, key, value):
+        self.set(key, value)
 
     def set(self, key, value):
         """Insert or update the given key with its associated value.
@@ -157,11 +167,11 @@ class HashTable(object):
 
 
 def test_hash_table():
-    ht = HashTable(4)
+    ht = HashTable(4, default=[])
     print('HashTable: ' + str(ht))
 
     print('Setting entries:')
-    ht.set('I', 1)
+    ht['I'].append(1)
     print('set(I, 1): ' + str(ht))
     ht.set('V', 5)
     print('set(V, 5): ' + str(ht))
@@ -179,7 +189,7 @@ def test_hash_table():
     print('load_factor: ' + str(ht.load_factor()))
 
     print('Getting entries:')
-    print('get(I): ' + str(ht.get('I')))
+    print('get(I): ' + str(ht['I']))
     print('get(V): ' + str(ht.get('V')))
     print('get(X): ' + str(ht.get('X')))
     print('get(L): ' + str(ht.get('L')))
