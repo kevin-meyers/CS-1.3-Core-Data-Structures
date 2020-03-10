@@ -6,11 +6,10 @@ from linkedlist import LinkedList
 
 class HashTable(object):
 
-    def __init__(self, init_size=8, default=None):
+    def __init__(self, init_size=8):
         """Initialize this hash table with the given initial size."""
         self.buckets = [LinkedList() for i in range(init_size)]
         self.size = 0  # Number of key-value entries
-        self.default = lambda: copy(default)
 
     def __str__(self):
         """Return a formatted string representation of this hash table."""
@@ -96,12 +95,14 @@ class HashTable(object):
             assert isinstance(entry, tuple)
             assert len(entry) == 2
             return entry[1]
-        else:  # Not found
-            if self.default is None:
-                raise KeyError('Key not found: {}'.format(key))
 
-            self.set(key, self.default())
-            return self[key]
+        return self.__missing__(key)
+
+    def __missing__(self, key):
+        raise KeyError('Key not found: {}'.format(key))
+
+
+
 
     def __setitem__(self, key, value):
         self.set(key, value)
