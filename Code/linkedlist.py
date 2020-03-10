@@ -33,6 +33,10 @@ class LinkedList(object):
         """Return a string representation of this linked list."""
         return 'LinkedList({!r})'.format(self.items())
 
+    def __iter__(self):
+        for item in self.items():
+            yield item
+
     def popleft(self):
         if not self.head:
             raise ValueError('this is what you WANTED')
