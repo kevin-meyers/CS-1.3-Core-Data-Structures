@@ -71,3 +71,17 @@ class TestHashSet(unittest.TestCase):
         union.remove(1)
         assert 1 not in union
         assert len(union) == 5
+
+    def test_intersection(self):
+        set_1 = HashSet([1, 2, 3, 4])
+        set_2 = HashSet([1, 2, 5, 6])
+
+        intersection = set_1.intersection(set_2)
+
+        assert 1 in intersection
+        assert len(intersection) == 2
+        assert 2 in intersection
+        assert 3 not in intersection
+
+    def test_difference(self):
+
