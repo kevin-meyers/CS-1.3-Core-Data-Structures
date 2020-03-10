@@ -20,8 +20,8 @@ def text_to_key(s):
     return ''.join(sort)
 
 def build_dict(filepath='/usr/share/dict/words'):
-    # anagramed_words = DefaultTable(default=HashSet 
-    anagramed_words = defaultdict(lambda: HashSet())
+    anagramed_words = DefaultTable(default=HashSet)
+    # anagramed_words = defaultdict(lambda: HashSet())
     with open(filepath) as f:
         for word in f.readlines():
             cleaned_word = clean_text(word)
@@ -49,7 +49,9 @@ def recursively_make_answers(found_words, visit, index=0, s=''):
         return
 
     words_set, spots = found_words[index]
+    print(found_words)
     for word in words_set:
+        print(word, index)
         letters = [word[index] for index in spots]
         recursively_make_answers(found_words, visit, index+1, s+''.join(letters))
 
