@@ -1,9 +1,10 @@
 from unidecode import unidecode
 import re
 
-from utils import DefaultTable
 from hash_set import HashSet
+from linkedlist import LinkedList
 from sorting import insertion_sort
+from utils import DefaultTable
 
 
 def clean_text(s):
@@ -28,7 +29,7 @@ def build_dict(filepath='/usr/share/dict/words'):
     return anagramed_words
 
 def get_possible(words, anagram_dict):
-    possible_words = []
+    possible_words = LinkedList()
     for word, spots in words:
         if len(spots) == 0:
             continue
@@ -39,16 +40,15 @@ def get_possible(words, anagram_dict):
 
     return possible_words
 
-def recursively_make_answers(found_words, visit, index=0, s=''):
-    if index >= len(found_words):
+def recursively_make_answers(node, visit, s=''):
+    if node is None:
         visit(s)
         return
 
-    words_set, spots = found_words[index]
-    print(found_words)
+    words_set, spots = node.data
     for word in words_set:
         letters = [word[index] for index in spots]
-        recursively_make_answers(found_words, visit, index+1, s+''.join(letters))
+        recursively_make_answers(node.next, visit, s+''.join(letters))
 
 if __name__ == '__main__':
     scrambled_1 = [
@@ -69,8 +69,8 @@ if __name__ == '__main__':
     ]
     anagrams = build_dict()
     possible_words = get_possible(scrambled_1, anagrams)
-    answers = []
-    recursively_make_answers(possible_words, answers.append)
+    answers = LinkedList()
+    recursively_make_answers(possible_words.head, answers.append)
 
     for answer in answers:
         unscrambled = anagrams[text_to_key(answer)]
