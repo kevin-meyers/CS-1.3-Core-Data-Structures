@@ -76,7 +76,7 @@ class TestHashSet(unittest.TestCase):
         set_1 = HashSet([1, 2, 3, 4])
         set_2 = HashSet([1, 2, 5, 6])
 
-        intersection = set_1.intersection(set_2)
+        intersection = set_1 & set_2
 
         assert 1 in intersection
         assert len(intersection) == 2
@@ -84,4 +84,21 @@ class TestHashSet(unittest.TestCase):
         assert 3 not in intersection
 
     def test_difference(self):
+        set_1 = HashSet([1, 2, 3, 4])
+        set_2 = HashSet([1, 2, 5, 6])
 
+        diff = set_1 - set_2
+
+        assert len(diff) == 2
+        assert 3 in diff
+        assert 1 not in diff
+        assert 2 not in diff
+
+
+    def test_difference(self):
+        hs = HashSet([1, 2, 3, 4, 5, 6, 7, 8])
+
+        assert HashSet([1, 2, 3]).is_subset(hs)
+        assert not HashSet([11]).is_subset(hs)
+
+        assert not hs.is_subset([11])
