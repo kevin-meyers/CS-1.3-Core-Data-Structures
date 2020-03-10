@@ -95,7 +95,7 @@ class TestHashSet(unittest.TestCase):
         assert 2 not in diff
 
 
-    def test_difference(self):
+    def test_is_subset(self):
         hs = HashSet([1, 2, 3, 4, 5, 6, 7, 8])
 
         assert HashSet([1, 2, 3]).is_subset(hs)
