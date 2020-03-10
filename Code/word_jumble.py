@@ -17,7 +17,7 @@ def text_to_key(s):
     return ''.join(sort)
 
 def build_dict(filepath='/usr/share/dict/words'):
-    anagramed_words = DefaultTable(default=HashSet)
+    anagramed_words = DefaultTable(lambda: HashSet)
     with open(filepath) as f:
         for word in f.readlines():
             cleaned_word = clean_text(word)
