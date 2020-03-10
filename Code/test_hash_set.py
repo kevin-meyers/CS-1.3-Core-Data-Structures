@@ -59,3 +59,15 @@ class TestHashSet(unittest.TestCase):
         assert 'D' not in hs
         assert 'E' not in hs
 
+    def test_union(self):
+        set_1 = HashSet([1, 2, 3, 4])
+        set_2 = HashSet([1, 5, 6])
+
+        union = set_1 + set_2
+
+        assert len(union) == 6
+        assert 5 in union
+        assert 7 not in union
+        union.remove(1)
+        assert 1 not in union
+        assert len(union) == 5

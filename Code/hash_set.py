@@ -21,7 +21,7 @@ class HashSet:
             yield item
 
     def __str__(self):
-        return '{' + f'{", ".join(self)}' + '}'
+        return '{' + f'{", ".join([str(i) for i in self])}' + '}'
 
     def __repr__(self):
         return repr(self.table)
