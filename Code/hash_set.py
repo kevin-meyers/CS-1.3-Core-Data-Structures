@@ -17,8 +17,11 @@ class HashSet:
 
     def __iter__(self):
         ''' Special method allowing use of looping. '''
-        for item in self.table.items():
+        for item in self.table.keys():
             yield item
+
+    def __str__(self):
+        return '{' + f'{", ".join(self)}' + '}'
 
     def add(self, item):
         self.table.set(item, None)
@@ -136,8 +139,8 @@ if __name__ == '__main__':
     for item in items:
         hs.add(item)
 
-    print(f'1 in set: {hs.contains(1)}')
+    print(f'1 in set: {1 in hs}')
     print('removing 4')
     hs.remove(4)
-    print(f'4 in set: {hs.contains(4)}')
+    print(f'4 in set: {4 in hs}')
     print(hs.table)
