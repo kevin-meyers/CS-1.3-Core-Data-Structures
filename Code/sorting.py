@@ -59,6 +59,8 @@ def insertion_sort(items):
     order in front of items, and repeating until all items are in order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
+    if not isinstance(items, list):
+        items = list(items)
     sorted_index = 0
     while sorted_index < len(items):
         for index, s_item in enumerate(items[:sorted_index]):
@@ -66,6 +68,8 @@ def insertion_sort(items):
                 items.insert(index, items.pop(sorted_index))
 
         sorted_index += 1
+
+    return items
 
 def _is_ascending(items):
     if items[0] < items[-1]: # ascending order

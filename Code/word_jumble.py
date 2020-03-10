@@ -13,8 +13,7 @@ def clean_text(s):
     return alpha_only.lower()
 
 def text_to_key(s):
-    sort = list(s)
-    insertion_sort(sort)
+    sort = insertion_sort(s)
     return ''.join(sort)
 
 def build_dict(filepath='/usr/share/dict/words'):
