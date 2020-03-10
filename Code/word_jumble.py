@@ -28,6 +28,7 @@ def build_dict(filepath='/usr/share/dict/words'):
     return anagramed_words
 
 def get_possible(words, anagram_dict):
+    ''' words - list of tuples: (anagramed word, letter locations) '''
     possible_words = LinkedList()
     for word, spots in words:
         if len(spots) == 0:

@@ -24,7 +24,7 @@ class HashSet:
         return '{' + f'{", ".join(self)}' + '}'
 
     def __repr__(self):
-        return str(self)
+        return repr(self.table)
 
     def add(self, item):
         self.table.set(item, None)

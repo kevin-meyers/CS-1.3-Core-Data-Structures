@@ -67,6 +67,9 @@ class HashTable(object):
         # Count number of key-value entries in each of the buckets
         return self.size
 
+    def __contains__(self, key):
+        return self.contains(key)
+
     def contains(self, key):
         """Return True if this hash table contains the given key, or False.
         Best case running time: ??? under what conditions? [TODO]
